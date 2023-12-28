@@ -1,7 +1,6 @@
-// Imports
 import express, { Request, Response, Express } from "express";
 import mongoose from "mongoose";
-
+import cors from "cors";
 import { config } from "dotenv";
 config();
 
@@ -12,6 +11,7 @@ const app: Express = express();
 const PORT = 5000;
 
 // Middlewares
+app.use(cors());
 app.use(express.json());
 
 // Routes
