@@ -2,6 +2,9 @@
 import express, { Request, Response, Express } from "express";
 import mongoose from "mongoose";
 
+import { config } from "dotenv";
+config();
+
 import Deck from "./models/Deck";
 
 // Define express app and PORT
@@ -19,12 +22,8 @@ app.post("/decks", async (req: Request, res: Response) => {
 });
 
 // Connect to DB, then start server on PORT
-mongoose
-  .connect(
-    "mongodb+srv://admin:BwuJeofI0zyZPzZc@flashcardappmern.kctlvfx.mongodb.net/flashCardAppMERN?retryWrites=true&w=majority"
-  )
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server: Listening on port ${PORT}`);
-    });
+mongoose.connect(process.env.MONGO_URL!).then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server: Listening on port ${PORT}`);
   });
+});
