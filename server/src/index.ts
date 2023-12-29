@@ -1,10 +1,10 @@
-import express, { Request, Response, Express } from "express";
+import express, { Express } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import { config } from "dotenv";
 config();
 
-import Deck from "./models/Deck";
+import * as decksRoute from "./routes/decksRoute";
 
 // Define express app and PORT
 const app: Express = express();
@@ -15,11 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.post("/decks", async (req: Request, res: Response) => {
-  const newDeck = new Deck({ title: req.body.title });
-  const createdDeck = await newDeck.save();
-  res.json(createdDeck);
-});
+app.use("/decks", decksRoute.router);
 
 // Connect to DB, then start server on PORT
 mongoose.connect(process.env.MONGO_URL!).then(() => {
